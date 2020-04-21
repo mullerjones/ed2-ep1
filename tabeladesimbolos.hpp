@@ -1,6 +1,16 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <vector>
+
+#include "util.hpp"
+using namespace std;
+
+struct Valor
+{
+    String chave;
+    Integer valor;
+};
 
 /*
 pra montar a tabela:
@@ -14,103 +24,148 @@ pra montar a tabela:
 */
 
 //Vetor desordenado
-template <typename Chave, typename Item>
 class vetorDes
 {
-    template <typename Chave, typename Item> class vetorDes(string nomeArquivo)
-    {
-        fstream arqTexto;
-        arqTexto.open(nomeArquivo);
-    }
-    void insere(Chave chave, Item valor)
-    {
+    vector<Valor> vetor;
 
-    }
-    Item devolve(Chave chave);
-    void remove(Chave chave);
-    int rank(Chave chave);
-    Chave seleciona(int k);
+public:
+    vetorDes(string nomeArquivo);
+    void insere(String chave, Integer valor);
+    Integer devolve(String chave);
+    void remove(String chave);
+    int rank(String chave);
+    String seleciona(int k);
 };
+
+vetorDes::vetorDes(string nomeArquivo)
+{
+    ifstream arqTexto;
+    String palavra;
+    Integer aux;
+    arqTexto.open(nomeArquivo);
+    while (arqTexto >> palavra)
+    {
+        aux = devolve(palavra);
+        if (aux == NULL)
+        {
+            int um = 1;
+            insere(palavra, &um);
+        }
+        else
+        {
+            aux++;
+        }
+    }
+}
+
+void vetorDes::insere(String chave, Integer valor)
+{
+    Valor *aux = new Valor;
+    aux->chave = chave;
+    aux->valor = valor;
+    vetor.push_back(*aux);
+}
+
+Integer vetorDes::devolve(String chave)
+{
+    for (std::size_t i = 0; i < vetor.size(); ++i)
+    {
+        if (strcasecmp(vetor[i].chave, chave))
+        {
+            return vetor[i].valor;
+        }
+    }
+    return NULL;
+}
+
 //Vetor ordenado
-template <typename Chave, typename Item>
 class vetorOrd
 {
-    void insere(Chave chave, Item valor);
-    Item devolve(Chave chave);
-    void remove(Chave chave);
-    int rank(Chave chave);
-    Chave seleciona(int k);
+public:
+    vetorOrd(string nomeArquivo);
+    void insere(String chave, Integer valor);
+    Integer devolve(String chave);
+    void remove(String chave);
+    int rank(String chave);
+    String seleciona(int k);
 };
 //Lista ligada desordenada
-template <typename Chave, typename Item>
 class listaDes
 {
-    void insere(Chave chave, Item valor);
-    Item devolve(Chave chave);
-    void remove(Chave chave);
-    int rank(Chave chave);
-    Chave seleciona(int k);
+public:
+    listaDes(string nomeArquivo);
+    void insere(String chave, Integer valor);
+    Integer devolve(String chave);
+    void remove(String chave);
+    int rank(String chave);
+    String seleciona(int k);
 };
 //Lista ligada ordenada
-template <typename Chave, typename Item>
 class listaOrd
 {
-    void insere(Chave chave, Item valor);
-    Item devolve(Chave chave);
-    void remove(Chave chave);
-    int rank(Chave chave);
-    Chave seleciona(int k);
+public:
+    listaOrd(string nomeArquivo);
+    void insere(String chave, Integer valor);
+    Integer devolve(String chave);
+    void remove(String chave);
+    int rank(String chave);
+    String seleciona(int k);
 };
 //Árvore Binária
-template <typename Chave, typename Item>
 class arvoreBin
 {
-    void insere(Chave chave, Item valor);
-    Item devolve(Chave chave);
-    void remove(Chave chave);
-    int rank(Chave chave);
-    Chave seleciona(int k);
+public:
+    arvoreBin(string nomeArquivo);
+    void insere(String chave, Integer valor);
+    Integer devolve(String chave);
+    void remove(String chave);
+    int rank(String chave);
+    String seleciona(int k);
 };
 //Treaps
-template <typename Chave, typename Item>
 class treap
 {
-    void insere(Chave chave, Item valor);
-    Item devolve(Chave chave);
-    void remove(Chave chave);
-    int rank(Chave chave);
-    Chave seleciona(int k);
+public:
+    treap(string nomeArquivo);
+    void insere(String chave, Integer valor);
+    Integer devolve(String chave);
+    void remove(String chave);
+    int rank(String chave);
+    String seleciona(int k);
 };
 
 //Árvore 2-3
-template <typename Chave, typename Item>
 class arvore23
 {
-    void insere(Chave chave, Item valor);
-    Item devolve(Chave chave);
-    void remove(Chave chave);
-    int rank(Chave chave);
-    Chave seleciona(int k);
+public:
+    arvore23(string nomeArquivo);
+    void insere(String chave, Integer valor);
+    Integer devolve(String chave);
+    void remove(String chave);
+    int rank(String chave);
+    String seleciona(int k);
 };
 //Árvore Rubro-Negra
-template <typename Chave, typename Item>
 class arvoreRN
 {
-    void insere(Chave chave, Item valor);
-    Item devolve(Chave chave);
-    void remove(Chave chave);
-    int rank(Chave chave);
-    Chave seleciona(int k);
+public:
+    arvoreRN(string nomeArquivo);
+    void insere(String chave, Integer valor);
+    Integer devolve(String chave);
+    void remove(String chave);
+    int rank(String chave);
+    String seleciona(int k);
 };
 //Hashing Table
-template <typename Chave, typename Item>
 class hashTable
 {
-    void insere(Chave chave, Item valor);
-    Item devolve(Chave chave);
-    void remove(Chave chave);
-    int rank(Chave chave);
-    Chave seleciona(int k);
+public:
+    hashTable(string nomeArquivo);
+    void insere(String chave, Integer valor);
+    Integer devolve(String chave);
+    void remove(String chave);
+    int rank(String chave);
+    String seleciona(int k);
 };
 
 /*
@@ -120,7 +175,7 @@ void remove (Chave chave);
 int rank (Chave chave);
 Chave seleciona(int k);
 
-
+valgrind --leak-check=full ./unit_test2 [arquivo] [modo]
 
 
 */
