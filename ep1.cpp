@@ -3,10 +3,12 @@
 #include <cstdlib>
 #include <string.h>
 #include <time.h>
-using namespace std;
 
-#include "tabeladesimbolos.hpp"
+#include "vetordes.hpp"
+#include "vetorord.hpp"
 #include "util.hpp"
+#include "tabeladesimbolos.hpp"
+using namespace std;
 
 int main(int argc, char *argv[])
 {
@@ -46,6 +48,17 @@ int main(int argc, char *argv[])
         cout<<*(st->vetor[10].valor) << endl;
 
         delete st;
+    }
+    else if (tipo == "VO"){
+        start = clock(); 
+        vetorOrd *st = new vetorOrd(nome_arquivo);
+        end = clock();
+
+        /* calcule o tempo */
+        elapsed = ((double) (end - start)) / CLOCKS_PER_SEC;
+        cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
+
+		delete st;
     } 
 
     return 0;
