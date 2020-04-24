@@ -17,23 +17,14 @@ pra montar a tabela:
     
 
 */
+//Vetor desordenado
 
 //Vetor ordenado
 
-//Lista ligada desordenada
- 
+//Lista ligada desordenada 
 
 //Lista ligada ordenada
-class listaOrd
-{
-public:
-    listaOrd(string nomeArquivo);
-    void insere(String chave, Integer valor);
-    Integer devolve(String chave);
-    void remove(String chave);
-    int rank(String chave);
-    String seleciona(int k);
-};
+
 //Árvore Binária
 class arvoreBin
 {

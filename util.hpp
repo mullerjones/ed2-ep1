@@ -28,6 +28,20 @@ typedef int * Integer;
 #define ERROR(msg)   fprintf(stderr,"ERROR: %s\n", #msg)
 #define WARNING(msg) fprintf(stdout,"WARNING: %s\n", #msg)
 
+
+struct Valor
+{
+    String chave;
+    Integer valor;
+};
+
+struct NoLista
+{
+    String chave;
+    Integer valor;
+    NoLista* prox;
+};
+
 /*---------------------------------------------------------------*/
 /* prototipo de funcoes */
 void *

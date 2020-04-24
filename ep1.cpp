@@ -6,6 +6,7 @@
 
 #include "vetordes.hpp"
 #include "vetorord.hpp"
+#include "listaDes.hpp"
 #include "util.hpp"
 #include "tabeladesimbolos.hpp"
 using namespace std;
@@ -59,7 +60,18 @@ int main(int argc, char *argv[])
         cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
 
 		delete st;
-    } 
+    }
+    else if (tipo == "LD"){
+        start = clock(); 
+        listaDes *st = new listaDes(nome_arquivo);
+        end = clock();
+
+        /* calcule o tempo */
+        elapsed = ((double) (end - start)) / CLOCKS_PER_SEC;
+        cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
+
+		delete st;
+    }
 
     return 0;
 }
