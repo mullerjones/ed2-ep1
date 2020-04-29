@@ -118,5 +118,11 @@ int vetorDes::rank(String chave)
 
 String vetorDes::seleciona(int k)
 {
-    
+    int aux = -1;
+    for (std::size_t i = 0; i < vetor.size(); ++i)
+    {
+        aux = rank(vetor[i].chave);
+        if(aux == 0) return vetor[i].chave;
+    }
+    return nullptr;
 }

@@ -130,6 +130,8 @@ int vetorOrd::find(String chave, int ini, int fin)
         case 1:
             return find(chave, ini, i);
     }
+
+    return 0;
 }
 
 int vetorOrd::achaLugar(String chave)

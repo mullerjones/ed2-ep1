@@ -26,16 +26,7 @@ pra montar a tabela:
 //Lista ligada ordenada
 
 //Árvore Binária
-class arvoreBin
-{
-public:
-    arvoreBin(string nomeArquivo);
-    void insere(String chave, Integer valor);
-    Integer devolve(String chave);
-    void remove(String chave);
-    int rank(String chave);
-    String seleciona(int k);
-};
+
 //Treaps
 class treap
 {

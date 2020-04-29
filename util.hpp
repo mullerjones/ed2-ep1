@@ -42,6 +42,23 @@ struct NoLista
     NoLista* prox;
 };
 
+struct NoABB
+{
+    String chave;
+    Integer valor;
+    NoABB* esq;
+    NoABB* dir;
+};
+
+struct NoTreap
+{
+    String chave;
+    Integer valor;
+    NoTreap* esq;
+    NoTreap* dir;
+    int prior;
+};
+
 /*---------------------------------------------------------------*/
 /* prototipo de funcoes */
 void *
