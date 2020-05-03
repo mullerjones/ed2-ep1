@@ -36,7 +36,7 @@ vetorDes::vetorDes(string nomeArquivo)
 {
     ifstream arqTexto;
     string palavra;
-    String test = (String)malloc(20 * sizeof(char) + 5);
+    String test = (String)malloc(40 * sizeof(char) + 5);
     Integer aux = nullptr;
     vetor.reserve(100000);
     arqTexto.open(nomeArquivo);
@@ -74,7 +74,7 @@ vetorDes::~vetorDes()
 void vetorDes::insere(String chave, Integer valor)
 {
     Valor aux;
-    aux.chave = (String)malloc(20 * sizeof(char) + 5);
+    aux.chave = (String)malloc(40 * sizeof(char) + 5);
     strcpy(aux.chave, chave);
     aux.valor = valor;
     vetor.push_back(aux);

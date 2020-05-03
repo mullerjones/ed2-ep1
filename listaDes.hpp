@@ -24,28 +24,30 @@ public:
 listaDes::listaDes(string nomeArquivo)
 {
     ifstream arqTexto;
-    String palavra;
+    string palavra;
+    String test = (String) malloc(40*sizeof(char) + 5);
     Integer aux = nullptr;
     iniLista = nullptr;
     arqTexto.open(nomeArquivo);
     while (arqTexto >> palavra)
     {
-        aux = devolve(palavra);
+        strcpy(test, palavra.c_str());
+        aux = devolve(test);
         if (aux == nullptr)
         {
             int *um = new int;
             *um = 1;
-            insere(palavra, um);
+            insere(test, um);
         }
         else
         {
             (*aux)++;
         }
     }
-    arqTexto.close();
-    delete (palavra);
-    palavra = nullptr;
+    free(test);
+    test = nullptr;
     aux = nullptr;
+    arqTexto.close();
 }
 
 listaDes::~listaDes()
@@ -59,8 +61,8 @@ listaDes::~listaDes()
         aux2 = aux;
         aux = aux->prox;
         free(aux2->chave);
-        free(aux2->valor);
-        free(aux2);
+        delete aux2->valor;
+        delete aux2;
         aux2 = nullptr;
     }
 }
@@ -68,7 +70,7 @@ listaDes::~listaDes()
 void listaDes::insere(String chave, Integer valor)
 {
     NoLista *aux = new NoLista();
-    aux->chave = (String)malloc(20 * sizeof(char));
+    aux->chave = (String)malloc(40 * sizeof(char) + 5);
     strcpy(aux->chave, chave);
     aux->valor = valor;
     aux->prox = iniLista;
@@ -100,8 +102,8 @@ void listaDes::remove(String chave)
     }
     aux2->prox = aux->prox;
     free(aux->chave);
-    free(aux->valor);
-    free(aux);
+    delete aux->valor;
+    delete aux;
     aux = nullptr;
 }
 

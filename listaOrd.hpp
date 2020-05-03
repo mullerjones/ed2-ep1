@@ -29,28 +29,30 @@ public:
 listaOrd::listaOrd(string nomeArquivo)
 {
     ifstream arqTexto;
-    String palavra;
+    string palavra;
+    String test = (String) malloc(40*sizeof(char) + 5);
     Integer aux = nullptr;
     iniLista = nullptr;
     arqTexto.open(nomeArquivo);
     while (arqTexto >> palavra)
     {
-        aux = devolve(palavra);
+        strcpy(test, palavra.c_str());
+        aux = devolve(test);
         if (aux == nullptr)
         {
             int *um = new int;
             *um = 1;
-            insere(palavra, um);
+            insere(test, um);
         }
         else
         {
             (*aux)++;
         }
     }
-    arqTexto.close();
-    delete (palavra);
-    palavra = nullptr;
+    free(test);
+    test = nullptr;
     aux = nullptr;
+    arqTexto.close();
 }
 
 listaOrd::~listaOrd()
@@ -64,8 +66,8 @@ listaOrd::~listaOrd()
         aux2 = aux;
         aux = aux->prox;
         free(aux2->chave);
-        free(aux2->valor);
-        free(aux2);
+        delete aux2->valor;
+        delete aux2;
         aux2 = nullptr;
     }
 }
@@ -73,7 +75,7 @@ listaOrd::~listaOrd()
 void listaOrd::insere(String chave, Integer valor)
 {
     NoLista *novo = new NoLista();
-    novo->chave = (String)malloc(20 * sizeof(char));
+    novo->chave = (String)malloc(40 * sizeof(char));
     strcpy(novo->chave, chave);
     novo->valor = valor;
     novo->prox = nullptr;
@@ -139,8 +141,8 @@ void listaOrd::remove(String chave)
     }
     aux2->prox = aux->prox;
     free(aux->chave);
-    free(aux->valor);
-    free(aux);
+    delete aux->valor;
+    delete aux;
     aux = nullptr;
 }
 

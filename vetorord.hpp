@@ -32,7 +32,7 @@ vetorOrd::vetorOrd(string nomeArquivo)
 {   
     ifstream arqTexto;
     string palavra;
-    String test = (String) malloc(20*sizeof(char) + 5);
+    String test = (String) malloc(40*sizeof(char) + 5);
     Integer aux = nullptr;
     arqTexto.open(nomeArquivo);
     while (arqTexto >> palavra)
@@ -50,7 +50,6 @@ vetorOrd::vetorOrd(string nomeArquivo)
             (*aux)++;
         }
     }
-    sort(vetor.begin(), vetor.end(), &comparaValores);
     free(test);
     test = nullptr;
     aux = nullptr;
@@ -70,7 +69,7 @@ vetorOrd::~vetorOrd()
 void vetorOrd::insere(String chave, Integer valor)
 {
     Valor aux;
-    aux.chave = (String)malloc(20 * sizeof(char) + 5);
+    aux.chave = (String)malloc(40 * sizeof(char) + 5);
     strcpy(aux.chave, chave);
     aux.valor = valor;
     if(vetor.size()==0)
@@ -81,8 +80,6 @@ void vetorOrd::insere(String chave, Integer valor)
     {
         auto itPos = upper_bound(vetor.begin(), vetor.end(), aux, &comparaValores);
         vetor.insert(itPos, aux);
-        //vetor.push_back(aux);
-        //sort(vetor.begin(), vetor.end(), &comparaValores);
     }
     return;
 }
