@@ -62,8 +62,6 @@ int main(int argc, char *argv[])
         /* calcule o tempo */
         elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
         cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
-        cout << st->vetor[10].chave << endl;
-        cout << *(st->vetor[10].valor) << endl;
 
         testeOperacoes(st);
         delete st;

@@ -35,28 +35,30 @@ public:
 vetorDes::vetorDes(string nomeArquivo)
 {
     ifstream arqTexto;
-    String palavra;
+    string palavra;
+    String test = (String)malloc(20 * sizeof(char) + 5);
     Integer aux = nullptr;
     vetor.reserve(100000);
     arqTexto.open(nomeArquivo);
     while (arqTexto >> palavra)
     {
-        aux = devolve(palavra);
+        strcpy(test, palavra.c_str());
+        aux = devolve(test);
         if (aux == nullptr)
         {
             int *um = new int;
             *um = 1;
-            insere(palavra, um);
+            insere(test, um);
         }
         else
         {
             (*aux)++;
         }
     }
-    arqTexto.close();
-    delete (palavra);
-    palavra = nullptr;
+    free(test);
+    test = nullptr;
     aux = nullptr;
+    arqTexto.close();
 }
 
 vetorDes::~vetorDes()
@@ -64,14 +66,15 @@ vetorDes::~vetorDes()
     for (std::size_t i = 0; i < vetor.size(); ++i)
     {
         free(vetor[i].chave);
-        free(vetor[i].valor);
+        delete vetor[i].valor;
     }
+    vetor.clear();
 }
 
 void vetorDes::insere(String chave, Integer valor)
 {
     Valor aux;
-    aux.chave = (String)malloc(20 * sizeof(char));
+    aux.chave = (String)malloc(20 * sizeof(char) + 5);
     strcpy(aux.chave, chave);
     aux.valor = valor;
     vetor.push_back(aux);
@@ -82,10 +85,10 @@ Integer vetorDes::devolve(String chave)
 {
     for (std::size_t i = 0; i < vetor.size(); ++i)
     {
-        String teste = vetor[i].chave;
+        String teste = vetor.at(i).chave;
         if (!strcasecmp(teste, chave))
         {
-            return vetor[i].valor;
+            return vetor.at(i).valor;
         }
     }
     return nullptr;
@@ -95,8 +98,10 @@ void vetorDes::remove(String chave)
 {
     for (std::size_t i = 0; i < vetor.size(); ++i)
     {
-        if (!strcasecmp(vetor[i].chave, chave))
+        if (!strcasecmp(vetor.at(i).chave, chave))
         {
+            free(vetor.at(i).chave);
+            delete vetor.at(i).valor;
             vetor.erase(vetor.begin() + i - 1);
         }
     }
@@ -105,9 +110,10 @@ void vetorDes::remove(String chave)
 int vetorDes::rank(String chave)
 {
     int total = 0;
+    if(devolve(chave) == nullptr) return -1;
     for (std::size_t i = 0; i < vetor.size(); ++i)
     {
-        if (vetor[i].chave < chave)
+        if (strcasecmp(vetor.at(i).chave, chave) < 0)
         {
             total++;
         }
@@ -121,8 +127,9 @@ String vetorDes::seleciona(int k)
     int aux = -1;
     for (std::size_t i = 0; i < vetor.size(); ++i)
     {
-        aux = rank(vetor[i].chave);
-        if(aux == 0) return vetor[i].chave;
+        aux = rank(vetor.at(i).chave);
+        if (aux == k)
+            return vetor.at(i).chave;
     }
     return nullptr;
 }
