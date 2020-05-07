@@ -8,9 +8,10 @@
 #include "util.hpp"
 using namespace std;
 
-void libera(NoABB* raiz);
-void liberaNo(NoABB* no);
-NoABB* coloca(NoABB *novo, NoABB *raiz);
+void libera(NoABB *raiz);
+void liberaNo(NoABB *no);
+NoABB *coloca(NoABB *novo, NoABB *raiz);
+int contaFilhos(NoABB *raiz);
 
 class arvoreBin
 {
@@ -28,28 +29,30 @@ public:
 arvoreBin::arvoreBin(string nomeArquivo)
 {
     ifstream arqTexto;
-    String palavra;
+    string palavra;
+    String test = (String) malloc(40*sizeof(char) + 5);
     Integer aux = nullptr;
     raiz = nullptr;
     arqTexto.open(nomeArquivo);
     while (arqTexto >> palavra)
     {
-        aux = devolve(palavra);
+        strcpy(test, palavra.c_str());
+        aux = devolve(test);
         if (aux == nullptr)
         {
             int *um = new int;
             *um = 1;
-            insere(palavra, um);
+            insere(test, um);
         }
         else
         {
             (*aux)++;
         }
     }
-    arqTexto.close();
-    delete (palavra);
-    palavra = nullptr;
+    free(test);
+    test = nullptr;
     aux = nullptr;
+    arqTexto.close();
 }
 
 arvoreBin::~arvoreBin()
@@ -59,8 +62,8 @@ arvoreBin::~arvoreBin()
 
 void arvoreBin::insere(String chave, Integer valor)
 {
-    NoABB* novo = new NoABB();
-    novo->chave = (String) malloc(20*sizeof(char));
+    NoABB *novo = new NoABB();
+    novo->chave = (String)malloc(40 * sizeof(char));
     strcpy(novo->chave, chave);
     novo->valor = valor;
     novo->esq = nullptr;
@@ -71,12 +74,13 @@ void arvoreBin::insere(String chave, Integer valor)
 
 Integer arvoreBin::devolve(String chave)
 {
-    if(raiz == nullptr) return nullptr;
-    NoABB* aux = raiz;
+    if (raiz == nullptr)
+        return nullptr;
+    NoABB *aux = raiz;
     int valor = strcasecmp(aux->chave, chave);
-    while(aux != nullptr && valor != 0)
+    while (aux != nullptr && valor != 0)
     {
-        if(valor > 0)
+        if (valor > 0)
         {
             aux = aux->esq;
         }
@@ -84,19 +88,22 @@ Integer arvoreBin::devolve(String chave)
         {
             aux = aux->dir;
         }
-        if(aux!=nullptr) valor =  strcasecmp(aux->chave, chave);
+        if (aux != nullptr)
+            valor = strcasecmp(aux->chave, chave);
     }
-    if(aux == nullptr) return nullptr;
-    else return aux->valor;
+    if (aux == nullptr)
+        return nullptr;
+    else
+        return aux->valor;
 }
 
 void arvoreBin::remove(String chave)
 {
-    NoABB* p = raiz;
+    NoABB *p = raiz;
     int valor = strcasecmp(p->chave, chave);
-    while(p != nullptr && valor != 0)
+    while (p != nullptr && valor != 0)
     {
-        if(valor > 0)
+        if (valor > 0)
         {
             p = p->esq;
         }
@@ -104,13 +111,13 @@ void arvoreBin::remove(String chave)
         {
             p = p->dir;
         }
-        valor =  strcasecmp(p->chave, chave);
+        valor = strcasecmp(p->chave, chave);
     }
-    NoABB* praSair = p;
-    NoABB* q = nullptr;
+    NoABB *praSair = p;
+    NoABB *q = nullptr;
     p = nullptr;
 
-    if(praSair->esq == nullptr)
+    if (praSair->esq == nullptr)
     {
         q = praSair->dir;
         liberaNo(praSair);
@@ -118,12 +125,12 @@ void arvoreBin::remove(String chave)
     }
     p = praSair;
     q = praSair->esq;
-    while(q->dir!=nullptr)
+    while (q->dir != nullptr)
     {
         p = q;
         q = q->dir;
     }
-    if(strcasecmp(p->chave, chave))
+    if (strcasecmp(p->chave, chave))
     {
         p->dir = q->esq;
         q->esq = praSair->esq;
@@ -134,46 +141,103 @@ void arvoreBin::remove(String chave)
 
 int arvoreBin::rank(String chave)
 {
-    return 0;
+    int rank = 0;
+    NoABB *aux = raiz;
+    while (aux != nullptr && !strcasecmp(aux->chave, chave))
+    {
+        if (strcasecmp(aux->chave, chave) > 0)
+        {
+            aux = aux->esq;
+        }
+        else
+        {
+            rank += contaFilhos(aux->esq);
+            aux = aux->dir;
+        }
+    }
+    rank += contaFilhos(aux->esq);
+    return rank - 1; //Subtrai 1 do valor obtido ate aqui ja que nao se deve contar a si mesmo
 }
 
 String arvoreBin::seleciona(int k)
 {
+    NoABB *auxNo = raiz;
+    int auxRank = 0;
+    int acum = 0;
+    while (auxNo != nullptr)
+    {
+        auxRank = rank(auxNo->chave);
+        if (auxRank > k)
+        {
+            auxNo = auxNo->esq;
+        }
+        else if (auxRank == k)
+        {
+            return auxNo->chave;
+        }
+        else
+        {
+            auxNo = auxNo->dir;
+        }
+    }
     return nullptr;
 }
 
-NoABB* coloca(NoABB *novo, NoABB *raiz)
+NoABB *coloca(NoABB *novo, NoABB *raiz)
 {
-    if(raiz == nullptr) return novo;
+    if (raiz == nullptr)
+        return novo;
     int valor = strcasecmp(novo->chave, raiz->chave);
-    if(valor > 0) raiz->esq = coloca(novo, raiz->esq);
-    else raiz->dir = coloca(novo, raiz->dir);
+    if (valor > 0)
+        raiz->esq = coloca(novo, raiz->esq);
+    else
+        raiz->dir = coloca(novo, raiz->dir);
     return raiz;
 }
 
-void liberaNo(NoABB* no)
+void liberaNo(NoABB *no)
 {
-    free(no->valor);
+    delete no->valor;
     free(no->chave);
     no->chave = nullptr;
     no->valor = nullptr;
     no->esq = nullptr;
     no->dir = nullptr;
-    free(no);
+    delete no;
     no = nullptr;
     return;
 }
 
-void libera(NoABB* raiz)
+void libera(NoABB *raiz)
 {
-    if(raiz->esq != nullptr) libera(raiz->esq);
-    
-    if(raiz->dir != nullptr) libera(raiz->dir);
-
-    if(raiz->dir == nullptr && raiz->esq == nullptr) liberaNo(raiz);
+    if (raiz->esq != nullptr)
+    {
+        libera(raiz->esq);
+        raiz->esq = nullptr;
+    }
+    if (raiz->dir != nullptr)
+    {
+        libera(raiz->dir);
+        raiz->dir = nullptr;
+    }
+    if (raiz->dir == nullptr && raiz->esq == nullptr)
+    {
+        liberaNo(raiz);
+        raiz = nullptr;
+    }
     else
     {
         ERROR(chegou na hora de liberar a raiz e nao tava tudo nullptr);
     }
     return;
+}
+
+int contaFilhos(NoABB *raiz)
+{
+    if (raiz == nullptr)
+        return 0;
+    int total = 1;
+    total += contaFilhos(raiz->dir);
+    total += contaFilhos(raiz->esq);
+    return total;
 }

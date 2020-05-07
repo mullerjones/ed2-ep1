@@ -56,7 +56,17 @@ struct NoTreap
     Integer valor;
     NoTreap* esq;
     NoTreap* dir;
+    NoTreap* pai;
     int prior;
+};
+
+struct NoRN
+{
+    String chave;
+    Integer valor;
+    NoRN* esq;
+    NoRN* dir;
+    bool red;
 };
 
 /*---------------------------------------------------------------*/
