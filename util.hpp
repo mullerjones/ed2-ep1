@@ -66,6 +66,7 @@ struct NoRN
     Integer valor;
     NoRN* esq;
     NoRN* dir;
+    NoRN* pai;
     bool red;
 };
 

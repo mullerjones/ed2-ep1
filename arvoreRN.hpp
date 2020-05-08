@@ -14,7 +14,7 @@ void liberaNo(NoRN *no);
 class arvoreRN
 {
 public:
-    NoRN* raiz;
+    NoRN *raiz;
     arvoreRN(string nomeArquivo);
     void insere(String chave, Integer valor);
     Integer devolve(String chave);
@@ -27,7 +27,7 @@ arvoreRN::arvoreRN(string nomeArquivo)
 {
     ifstream arqTexto;
     string palavra;
-    String test = (String) malloc(40*sizeof(char) + 5);
+    String test = (String)malloc(40 * sizeof(char) + 5);
     Integer aux = nullptr;
     raiz = nullptr;
     arqTexto.open(nomeArquivo);
@@ -52,10 +52,47 @@ arvoreRN::arvoreRN(string nomeArquivo)
     arqTexto.close();
 }
 
+void arvoreRN::insere(String chave, Integer valor)
+{
+    NoRN *novo = new NoRN();
+    novo->chave = (String)malloc(40 * sizeof(char) + 5);
+    strcpy(novo->chave, chave);
+    novo->valor = valor;
+    novo->dir = nullptr;
+    novo->esq = nullptr;
+    novo->pai = nullptr;
+    novo->red = true;
 
-
-
-
+    NoRN *aux = nullptr;
+    NoRN *aux2 = novo;
+    while (aux2 != nullptr)
+    {
+        aux = aux2;
+        if (strcasecmp(aux->chave, chave) < 0)
+        {
+            aux2 = aux2->esq;
+        }
+        else
+        {
+            aux2 = aux2->dir;
+        }
+    }
+    novo->pai = aux;
+    if (aux == nullptr)
+        raiz = novo;
+    else
+    {
+        if (strcasecmp(novo->chave, aux->chave) < 0)
+        {
+            aux->esq = novo;
+        }
+        else
+        {
+            aux->dir = novo;
+        }
+    }
+    //conserta
+}
 
 String arvoreRN::seleciona(int k)
 {
@@ -117,4 +154,37 @@ void libera(NoRN *raiz)
         ERROR(chegou na hora de liberar a raiz e nao tava tudo nullptr);
     }
     return;
+}
+
+NoRN *rotDir(NoRN *raiz)
+{
+    NoRN *aux = raiz->esq;
+    raiz->esq = aux->dir;
+    aux->dir = raiz;
+    return aux;
+}
+
+NoRN *rotEsq(NoRN *raiz)
+{
+    NoRN *aux = raiz->dir;
+    raiz->dir = aux->esq;
+    aux->esq = raiz;
+    return aux;
+}
+
+void conserta(NoRN* novo)
+{
+    NoRN* aux;
+    while(novo->pai->red)
+    {
+        if(novo->pai == novo->pai->pai->esq)
+        {
+            aux = novo->pai->pai->dir;
+            if(aux->red)
+            {
+                
+            }
+        }
+    }
+
 }
