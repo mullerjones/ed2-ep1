@@ -46,10 +46,6 @@ int main(int argc, char *argv[])
     string nome_arquivo = argv[1];
     string tipo = argv[2];
 
-    /* crie a ST*/
-    cout << "criando ST...\n";
-
-    /* usadas para medir tempo de processamento */
     clock_t start, end;
     double elapsed = 0;
 
@@ -59,7 +55,6 @@ int main(int argc, char *argv[])
         vetorDes *st = new vetorDes(nome_arquivo);
         end = clock();
 
-        /* calcule o tempo */
         elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
         cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
 
@@ -72,7 +67,6 @@ int main(int argc, char *argv[])
         vetorOrd *st = new vetorOrd(nome_arquivo);
         end = clock();
 
-        /* calcule o tempo */
         elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
         cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
 
@@ -85,7 +79,6 @@ int main(int argc, char *argv[])
         listaDes *st = new listaDes(nome_arquivo);
         end = clock();
 
-        /* calcule o tempo */
         elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
         cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
 
@@ -98,7 +91,6 @@ int main(int argc, char *argv[])
         listaOrd *st = new listaOrd(nome_arquivo);
         end = clock();
 
-        /* calcule o tempo */
         elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
         cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
 
@@ -111,65 +103,38 @@ int main(int argc, char *argv[])
         arvoreBin *st = new arvoreBin(nome_arquivo);
         end = clock();
 
-        /* calcule o tempo */
         elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
         cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
 
         testeOperacoes(st);
         delete st;
     }
-    else if (tipo == "TR"){
-        start = clock(); 
+    else if (tipo == "TR")
+    {
+        start = clock();
         treap *st = new treap(nome_arquivo);
         end = clock();
 
-        /* calcule o tempo */
-        elapsed = ((double) (end - start)) / CLOCKS_PER_SEC;
+        elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
         cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
 
         testeOperacoes(st);
-		delete st;
-     }
-    // else if (tipo == "A23")
-    // {
-    //     start = clock();
-    //     arvore23 *st = new arvore23(nome_arquivo);
-    //     end = clock();
+        delete st;
+    }
+    else if (tipo == "HS")
+    {
+        start = clock();
+        hashTable *st = new hashTable(nome_arquivo);
+        end = clock();
 
-    //     /* calcule o tempo */
-    //     elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
-    //     cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
+        elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
+        cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
 
-    //     testeOperacoes(st);
-    //     delete st;
-    // }
-    // else if (tipo == "RN")
-    // {
-    //     start = clock();
-    //     arvoreRN *st = new arvoreRN(nome_arquivo);
-    //     end = clock();
-
-    //     /* calcule o tempo */
-    //     elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
-    //     cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
-
-    //     testeOperacoes(st);
-    //     delete st;
-    // }
-    // else if (tipo == "HS")
-    // {
-    //     start = clock();
-    //     hashTable *st = new hashTable(nome_arquivo);
-    //     end = clock();
-
-    //     /* calcule o tempo */
-    //     elapsed = ((double)(end - start)) / CLOCKS_PER_SEC;
-    //     cout << "arquivo lido e ST construida em " << elapsed << " segundos\n";
-
-    //     testeOperacoes(st);
-    //     delete st;
-    // }
-    else {
+        testeOperacoes(st);
+        delete st;
+    }
+    else
+    {
         cout << "A estrutura" << tipo << "não é válida";
         exit(EXIT_FAILURE);
     }

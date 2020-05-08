@@ -60,15 +60,6 @@ struct NoTreap
     int prior;
 };
 
-struct NoRN
-{
-    String chave;
-    Integer valor;
-    NoRN* esq;
-    NoRN* dir;
-    NoRN* pai;
-    bool red;
-};
 
 /*---------------------------------------------------------------*/
 /* prototipo de funcoes */

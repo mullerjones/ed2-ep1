@@ -52,6 +52,21 @@ hashTable::hashTable(string nomeArquivo)
 
 hashTable::~hashTable()
 {
+    NoLista* aux;
+    NoLista* aux2;
+    for(auto it = tabela.begin(); it != tabela.end(); it++)
+    {
+        aux = &it->second;
+        while(aux != nullptr)
+        {
+            aux2 = aux;
+            aux = aux->prox;
+            free(aux2->chave);
+            delete aux2->valor;
+            delete aux2;
+            aux2 = nullptr;
+        }
+    }
 }
 
 void hashTable::insere(String chave, Integer valor)
